@@ -1,4 +1,4 @@
-EXTS = $(subst ml,cma, $(wildcard exts/*.ml))
+EXTS = $(subst ml,cmo, $(wildcard exts/*.ml))
 
 all: squeebie.byte $(EXTS)
 	ln -fs _build/squeebie.byte squeebie.byte

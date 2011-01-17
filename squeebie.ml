@@ -114,7 +114,8 @@ let main_loop () =
 					let prefix, rest = String.split msg " " in
 					if Hashtbl.mem Table.extensions prefix then begin
 						try
-							writef "PRIVMSG %s: %s" !channel ((Hashtbl.find Table.extensions prefix) rest)
+							let response = (Hashtbl.find Table.extensions prefix) rest in
+							writef "PRIVMSG %s :%s" !channel response
 						with _ -> ()
 					end
 			| None, Cmd "PING", data :: [] ->
