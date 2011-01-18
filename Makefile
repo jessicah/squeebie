@@ -12,5 +12,5 @@ squeebie.byte: squeebie.ml
 
 clean:
 	ocamlbuild -clean
-	rm -rf exts/*.cma
+	rm -rf exts/*.cmo
 
