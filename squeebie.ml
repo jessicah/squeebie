@@ -123,4 +123,10 @@ let main_loop () =
 			| _ -> ()
 	done
 
-let () = main_loop ()
+let () =
+	while true do
+		try
+			main_loop ()
+		with exn ->
+			print_endline (Printexc.to_string exn);
+	done

@@ -1,16 +1,18 @@
 EXTS = $(subst ml,cmo, $(wildcard exts/*.ml))
 
-all: squeebie.byte $(EXTS)
-	ln -fs _build/squeebie.byte squeebie.byte
+all: squeebie $(EXTS)
 
-$(EXTS): squeebie.byte
-	ocamlbuild -no-hygiene $@
-	cp -f _build/$@ $@
+$(EXTS): squeebie
+	ocamlfind ocamlc -package unix,extlib,dynlink,xml-light,curl,json-wheel -c $(subst cmo,ml,$@)
 
-squeebie.byte: squeebie.ml
-	ocamlbuild -no-hygiene -lflag -linkall squeebie.byte
+squeebie: types.mli parser.mli parser.ml lexer.ml table.ml squeebie.ml
+	ocamlfind ocamlc -package unix,extlib,dynlink,xml-light,curl,json-wheel -linkpkg -linkall -o $@ $+
+
+parser.ml: parser.mly
+	ocamlyacc $<
+
+lexer.ml: lexer.mll
+	ocamllex $<
 
 clean:
-	ocamlbuild -clean
-	rm -rf exts/*.cmo
-
+	rm -f *.cm[io] parser.ml lexer.ml $(EXTS)
